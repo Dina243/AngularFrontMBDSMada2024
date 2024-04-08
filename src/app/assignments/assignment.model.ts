@@ -1,12 +1,24 @@
-export class Assignment {
-  _id?: string;
+export class Matiere{
+  _id!: string;
   nom!: string;
-  dateDeRendu!: Date;
-  rendu!: boolean;
+  photo!: string;
+  photoProf!: string;
 }
 
 export class Eleve{
   _id!: string;
   nom!: string;
   photo!: string;
+}
+export class Assignment {
+  _id?: string;
+  nom!: string;
+  dateDeRendu!: Date;
+  rendu!: boolean;
+  note: number = 0;
+  eleve!: any;
+  matiere!: any;
+  remarques?: string;
+  eleve_id?: string;
+  matiere_id?: string;
 }
