@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var eyeIcon = $(".fa-eye");
+  var eyeIcon = $(".toggle-password");
 
   eyeIcon.click(function() {
     var passwordField = $("#password");

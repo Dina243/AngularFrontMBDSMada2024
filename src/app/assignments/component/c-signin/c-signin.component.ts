@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 // import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SLoginService } from '../../../shared/s-login.service';
 
 @Component({
   selector: 'app-c-signin',
@@ -15,6 +16,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class CSigninComponent implements OnInit {
 
+  // Formulaire
+  form: any = {
+    email: 'prof@gmail.com' ,
+    mdp: 'mdpprof'
+  }
+
+  // Gestion de connexion
+  connected: boolean = false ;
+
+  // Gestion des erreurs
+  logError: string = '' ;
+
   @ViewChild('login')
   ngForm!: NgForm;
 
@@ -25,15 +38,15 @@ export class CSigninComponent implements OnInit {
   }
 
 
-  mail : any ;
+  email : any ;
   mdp : any ;
 
   message : any ;
 
-  constructor(private router : Router , private elementRef : ElementRef) { }
+  constructor(private loginService : SLoginService , private router : Router , private elementRef : ElementRef) { }
 
   ngOnInit(): void {
-
+    this.connected = (localStorage.getItem('login') != null) ;
   }
 
   // ngAfterViewInit(){
@@ -42,7 +55,30 @@ export class CSigninComponent implements OnInit {
   // }
 
   login(){
+    this.loginService.login(this.form).subscribe((result) => {
+      if (result.error) this.logError = result.error ;
+      else {
+        // Mise en page
+        this.resetLoginForm() ;
+        this.logError = '' ;
 
+        // Controle des rôles
+        localStorage.setItem('login', JSON.stringify(result)) ;
+        const role = result.role ;
+        // Redirection vers la page des assignments
+        if (role.intitule == 'Professeur') this.router.navigate(['/assignments']) ;
+        else {
+          this.router.navigate(['/students']);
+        }
+
+      }
+    }) ;
+
+  }
+
+  resetLoginForm() {
+    this.form.email = '' ;
+    this.form.mdp = '' ;
   }
 
 }
