@@ -5,6 +5,13 @@
   (submit)="onSubmit($event); assignmentForm.reset()"
   class="form"
 >
+@if (progress) {
+  <mat-toolbar class="progress-bar">
+    <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+    <span class="progress">{{ progress }}%</span>
+  </mat-toolbar>
+  }
+
   <mat-form-field>
     <input
       matInput
@@ -28,10 +35,50 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Nom Etudiant"
+      required
+      [(ngModel)]="studentName"
+      name="studentName"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <div>
+      <mat-toolbar>
+        <input matInput [value]="studentPhoto" />
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!currentFile"
+          (click)="upload()"
+        >
+          Upload
+        </button>
+      </mat-toolbar>
+
+      <input
+        type="file"
+        id="fileInput"
+        (change)="selectFile($event)"
+        name="fileInput"
+      />
+    </div>
+  </mat-form-field>
+
+  @if (message) {
+    <div class="message">
+      {{ message }}
+    </div>
+  }
+
   <button
     mat-stroked-button
     color="primary"
-    [disabled]="nomAssignment == '' || dateDeRendu === undefined"
+    [disabled]="isFormInvalid()"
   >
     Ajouter un devoir
   </button>

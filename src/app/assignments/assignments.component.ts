@@ -57,7 +57,7 @@ export class AssignmentsComponent implements OnInit {
   hasPrevPage!: boolean;
 
   // tableau des assignments POUR AFFICHAGE
-  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
+  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu', 'studentName', 'studentPhoto'];
 
   assignments: Assignment[] = [];
 
