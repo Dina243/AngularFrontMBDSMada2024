@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatIconModule } from '@angular/material/icon';
 // import { NavbarComponent } from './navbar/navbar.component';
 
 import { RenduDirective } from '../shared/rendu.directive';
@@ -37,6 +37,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
     MatTableModule,
     MatPaginatorModule,
     MatListModule,
+    MatIconModule,
     MatSliderModule,
     RenduDirective,
     AssignmentDetailComponent,

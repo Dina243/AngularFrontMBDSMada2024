@@ -55,7 +55,7 @@
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef>Nom</th>
       <td mat-cell *matCellDef="let a">
-        <a [routerLink]="['/assignments', a._id]">{{ a.nom }}</a>
+        <a [routerLink]="['/assignment', a._id]">{{ a.nom }}</a>
       </td>
     </ng-container>
 
@@ -83,6 +83,26 @@
       <th mat-header-cell *matHeaderCellDef>Photo Etudiant</th>
       <td mat-cell *matCellDef="let a">
         <img [src]="a.studentPhoto" style="width: 50px; height: auto;">
+      </td>
+    </ng-container>
+
+    <!-- Bouton Détails Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>Détails</th>
+      <td mat-cell *matCellDef="let a">
+        <button mat-icon-button [routerLink]="['/details', a._id]">
+          <mat-icon>info</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Bouton Modifier Column -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>Modifier</th>
+      <td mat-cell *matCellDef="let a">
+        <button mat-icon-button [routerLink]="['/modifier', a._id]">
+          <mat-icon>edit</mat-icon>
+        </button>
       </td>
     </ng-container>
 
