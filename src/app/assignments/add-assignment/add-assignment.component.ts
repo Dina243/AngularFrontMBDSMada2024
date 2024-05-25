@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -39,23 +39,27 @@ import { FileUploadService } from '../../shared/file-upload.service';
 })
 export class AddAssignmentComponent implements OnInit {
   // champs du formulaire
-  nomAssignment = '';
-  dateDeRendu = undefined;
-  studentName = '' ;
-  studentPhoto = 'Sélectionner une photo';
+  assignment: any = {
+    nomAssignment: '',
+    dateDeRendu: undefined,
+    studentName: '',
+    studentPhoto: 'Sélectionner une photo'
+  };
 
   currentFile?: File;
   progress = 0;
   message = '';
   fileInfos?: Observable<any>;
 
-
   ngOnInit(): void {
     this.fileInfos = this.uploadService.getFiles();
   }
 
-  // Méthode pour gérer la sélection de fichiers
+  constructor(private assignmentsService: AssignmentsService,
+              private router: Router,
+              private uploadService: FileUploadService) {}
 
+  // Méthode pour gérer la sélection de fichiers
   selectFile(event: any): void {
     this.progress = 0;
     this.message = "";
@@ -63,9 +67,9 @@ export class AddAssignmentComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];
       this.currentFile = file;
-      this.studentPhoto = this.currentFile.name;
+      this.assignment.studentPhoto = this.currentFile.name;
     } else {
-      this.studentPhoto = 'Sélectionner une photo';
+      this.assignment.studentPhoto = 'Sélectionner une photo';
     }
   }
 
@@ -95,54 +99,32 @@ export class AddAssignmentComponent implements OnInit {
         }
       });
     }
-
   }
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     this.studentPhoto = input.files[0];
-  //   }
-  // }
-
-  constructor(private assignmentsService: AssignmentsService,
-              private router:Router,
-              private uploadService: FileUploadService) {}
-
-  isFormInvalid(): boolean {
-    return !this.nomAssignment.trim() || !this.dateDeRendu || !this.studentName.trim() || !this.studentPhoto;
-  }
-  // onSubmit(event: any) {
-  //   if((this.nomAssignment == '') || (this.dateDeRendu === undefined) || (this.studentName == '') || (this.studentPhoto == )) return;
 
   onSubmit(event: any) {
-    if (!this.nomAssignment.trim() || !this.dateDeRendu || !this.studentName.trim() || !this.studentPhoto) {
-      return;
-    }
-    // on crée un nouvel assignment
+    // if (!this.assignment.nomAssignment.trim() || !this.assignment.dateDeRendu || !this.assignment.studentName.trim() || !this.assignment.studentPhoto) {
+    //   return;
+    // }
+
+    if((this.assignment.nomAssignment == '') ||
+       (this.assignment.dateDeRendu === undefined) ||
+       (this.assignment.studentName == '') ||
+       (this.assignment.studentPhoto == 'Sélectionner une photo')) {
+        this.message = 'Tous les champs doivent être remplis, y compris la photo de l\'étudiant.';
+        return;
+
+       }
+
     let nouvelAssignment = new Assignment();
-    // on genere un id aléatoire (plus tard ce sera fait coté serveur par
-    // une base de données)
-    nouvelAssignment.nom = this.nomAssignment;
-    nouvelAssignment.dateDeRendu = this.dateDeRendu;
+    nouvelAssignment.nom = this.assignment.nomAssignment;
+    nouvelAssignment.dateDeRendu = this.assignment.dateDeRendu;
     nouvelAssignment.rendu = false;
-    nouvelAssignment.studentName = this.studentName;
-    // nouvelAssignment.studentPhoto = this.studentPhoto;
-    if (this.studentPhoto) {
-      nouvelAssignment.studentPhoto = this.studentPhoto;
-    }
+    nouvelAssignment.studentName = this.assignment.studentName;
+    nouvelAssignment.studentPhoto = this.assignment.studentPhoto;
 
-    // on utilise le service pour directement ajouter
-    // le nouvel assignment dans le tableau
-    this.assignmentsService
-      .addAssignment(nouvelAssignment)
-      .subscribe((reponse) => {
-        console.log(reponse);
-       // On navigue pour afficher la liste des assignments
-       // en utilisant le router de manière programmatique
-        this.router.navigate(['/home']);
-      });
+    this.assignmentsService.addAssignment(nouvelAssignment).subscribe((response) => {
+      console.log('Assignment added successfully', response);
+      this.router.navigate(['/home']);
+    });
   }
-
-
-
 }

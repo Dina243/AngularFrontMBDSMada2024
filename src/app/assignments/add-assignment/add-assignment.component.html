@@ -17,7 +17,7 @@
       matInput
       placeholder="Nom"
       required
-      [(ngModel)]="nomAssignment"
+      [(ngModel)]="assignment.nomAssignment"
       name="nom"
     />
   </mat-form-field>
@@ -27,7 +27,7 @@
     <input
       matInput
       [matDatepicker]="picker"
-      [(ngModel)]="dateDeRendu"
+      [(ngModel)]="assignment.dateDeRendu"
       name="date"
     />
     <mat-hint>dd/MM/YYYY</mat-hint>
@@ -40,7 +40,7 @@
       matInput
       placeholder="Nom Etudiant"
       required
-      [(ngModel)]="studentName"
+      [(ngModel)]="assignment.studentName"
       name="studentName"
     />
   </mat-form-field>
@@ -48,13 +48,14 @@
   <mat-form-field>
     <div>
       <mat-toolbar>
-        <input matInput [value]="studentPhoto" />
+        <input matInput [value]="assignment.studentPhoto" />
 
         <button
           mat-flat-button
           color="primary"
           [disabled]="!currentFile"
           (click)="upload()"
+          type="button"
         >
           Upload
         </button>
@@ -65,6 +66,7 @@
         id="fileInput"
         (change)="selectFile($event)"
         name="fileInput"
+        style="margin-top: 10px;"
       />
     </div>
   </mat-form-field>
@@ -78,7 +80,7 @@
   <button
     mat-stroked-button
     color="primary"
-    [disabled]="isFormInvalid()"
+    [disabled]="assignment.nomAssignment == '' || assignment.dateDeRendu === undefined || assignment.studentName == '' || assignment.studentPhoto == 'Sélectionner une photo' "
   >
     Ajouter un devoir
   </button>

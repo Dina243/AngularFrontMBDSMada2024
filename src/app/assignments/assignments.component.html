@@ -6,6 +6,7 @@
   </div>
 
   <h2>{{ titre }}</h2>
+  <hr>
 <!--
   <p>
     Nb documents : {{ totalDocs }}, nbPages : {{ totalPages }}
@@ -49,11 +50,15 @@
     [dataSource]="assignments"
     class="mat-elevation-z8 demo-table"
   >
+
     <!-- Nom Column -->
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef>Nom</th>
-      <td mat-cell *matCellDef="let a">{{ a.nom }}</td>
+      <td mat-cell *matCellDef="let a">
+        <a [routerLink]="['/assignments', a._id]">{{ a.nom }}</a>
+      </td>
     </ng-container>
+
 
     <!-- dateDeRendu Column -->
     <ng-container matColumnDef="dateDeRendu">
