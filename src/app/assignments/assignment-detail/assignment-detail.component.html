@@ -1,5 +1,61 @@
 @if(assignmentTransmis) {
-<h2>Détail de l'assignment:</h2>
+<h2>Détail de l'assignment de <i style="color: cadetblue;"><u>"{{ assignmentTransmis.studentName }}"</u></i> :</h2>
+
+<mat-card>
+  <mat-card-content>
+    <div class="content">
+
+      <div class="col-3">
+        <h5>Assignment</h5>
+        <div class="body-01">Étudiant . Université Côte d'Azur</div>
+        <div class="card">
+          <div class="media media--2-3">
+            <div class="primary-title">
+              <div class="optional-header">
+                <div class="thumbnail thumbnail--40x40"><img src="https://randomuser.me/api/portraits/women/47.jpg" alt="" width="40" height="40"></div>
+                <div class="primary-title">
+                  <div class="title">{{ assignmentTransmis.studentName }}</div>
+                  <div class="subhead">Étudiant</div>
+                </div>
+              </div>
+              <div class="primary-text">
+                <mat-card-title>{{ assignmentTransmis.nom }}</mat-card-title>
+                <mat-card-subtitle class="primary-text">{{
+                  assignmentTransmis.dateDeRendu | date
+                }}</mat-card-subtitle>
+              </div>
+
+            </div>
+            <img src="https://media.pixeltuner.de/wp-content/uploads/2018/06/asia-1793425_640.jpg" alt="" width="960" height="640"> </div>
+          <div class="actions">
+            <div class="action-buttons">
+              <button class="button" type="button">Voir assignment</button>
+            </div>
+            <div class="action-icons float-right"> <i class="material-icons action-icon" role="button" title="Noter l'assignment" (click)="openRatingDialog()">grade</i> <i class="material-icons action-icon" role="button" title="Remarques">feedback</i>
+              <i class="material-icons action-icon" role="button" title="Plus d'options">more_vert</i> </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Nouvelle carte pour afficher la note -->
+      <div class="card-content">
+        <mat-card>
+          <mat-card-content>
+            <mat-card-title>Note de l'assignment</mat-card-title>
+            <mat-card-subtitle *ngIf="assignmentTransmis.note !== undefined">
+              Note: {{ assignmentTransmis.note }}/20
+            </mat-card-subtitle>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<hr>
 
 <mat-card>
   <mat-card-content>

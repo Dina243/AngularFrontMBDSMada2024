@@ -15,8 +15,8 @@ export class Assignment {
   nom!: string;
   dateDeRendu!: Date;
   rendu!: boolean;
-  // note: number = 0;
-  // matiere!: any;
+  note: number = 0;
+  matiere!: any;
   // remarques?: string;
   // matiere_id?: string;
   studentName!: string;

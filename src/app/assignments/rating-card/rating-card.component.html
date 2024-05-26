@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Noter l'Assignment</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Note sur 20</mat-label>
+    <input matInput type="number" [(ngModel)]="rating" min="0" max="20">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button (click)="submitRating()">Noter</button>
+</mat-dialog-actions>

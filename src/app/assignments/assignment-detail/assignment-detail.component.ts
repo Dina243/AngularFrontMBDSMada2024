@@ -9,11 +9,14 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import  {RouterLink} from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RatingCardComponent } from '../rating-card/rating-card.component';
+
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
   imports: [CommonModule, RouterLink,
-    MatButtonModule, MatCardModule, MatCheckboxModule],
+    MatButtonModule, MatCardModule, MatCheckboxModule, RatingCardComponent],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
@@ -23,7 +26,8 @@ export class AssignmentDetailComponent implements OnInit {
   constructor(private assignmentsService:AssignmentsService,
               private authService:AuthService,
               private route:ActivatedRoute,
-              private router:Router) { }
+              private router:Router,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     // Recuperation des query params (ce qui suit le ? dans l'url)
@@ -65,6 +69,21 @@ export class AssignmentDetailComponent implements OnInit {
         this.router.navigate(['/home']);
       });
     }
+  }
+
+  openRatingDialog(): void {
+    const dialogRef = this.dialog.open(RatingCardComponent, {
+      width: '300px',
+      data: { assignment: this.assignmentTransmis }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('La boîte de dialogue a été fermée');
+      if (result && this.assignmentTransmis) {
+        this.assignmentTransmis.note = result.note;
+        // this.assignmentTransmis.remarques = result.remarques;
+      }
+    });
   }
 
   isAdmin() {
