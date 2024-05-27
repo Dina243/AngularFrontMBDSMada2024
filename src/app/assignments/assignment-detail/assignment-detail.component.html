@@ -42,10 +42,13 @@
       <div class="card-content">
         <mat-card>
           <mat-card-content>
-            <mat-card-title>Note de l'assignment</mat-card-title>
-            <mat-card-subtitle *ngIf="assignmentTransmis.note !== undefined">
-              Note: {{ assignmentTransmis.note }}/20
-            </mat-card-subtitle>
+            <mat-card-title>Note de l'assignment de "{{ assignmentTransmis.studentName }}" est : {{ assignmentTransmis.note }}/20</mat-card-title>
+            <!-- @if(!assignmentTransmis.note) {
+              <mat-card-subtitle>
+                Note: {{ assignmentTransmis.note }}/20
+              </mat-card-subtitle>
+            } -->
+
           </mat-card-content>
         </mat-card>
       </div>

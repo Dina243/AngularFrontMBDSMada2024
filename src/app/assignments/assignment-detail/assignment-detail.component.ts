@@ -72,18 +72,20 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   openRatingDialog(): void {
-    const dialogRef = this.dialog.open(RatingCardComponent, {
-      width: '300px',
-      data: { assignment: this.assignmentTransmis }
-    });
+    if (this.assignmentTransmis) {
+      const dialogRef = this.dialog.open(RatingCardComponent, {
+        width: '300px',
+        data: { note: this.assignmentTransmis.note }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('La boîte de dialogue a été fermée');
-      if (result && this.assignmentTransmis) {
-        this.assignmentTransmis.note = result.note;
-        // this.assignmentTransmis.remarques = result.remarques;
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('La boîte de dialogue a été fermée');
+        if (result && this.assignmentTransmis) {
+          this.assignmentTransmis.note = result.note;
+          // this.assignmentTransmis.remarques = result.remarques;
+        }
+      });
+    }
   }
 
   isAdmin() {
