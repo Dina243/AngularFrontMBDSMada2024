@@ -22,6 +22,7 @@ import { RatingCardComponent } from '../rating-card/rating-card.component';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment|undefined;
+  renduCheckboxDisabled = true;
 
   constructor(private assignmentsService:AssignmentsService,
               private authService:AuthService,
@@ -82,10 +83,14 @@ export class AssignmentDetailComponent implements OnInit {
         console.log('La boîte de dialogue a été fermée');
         if (result && this.assignmentTransmis) {
           this.assignmentTransmis.note = result.note;
-          // this.assignmentTransmis.remarques = result.remarques;
+          this.enableCheckbox();
         }
       });
     }
+  }
+
+  enableCheckbox(): void {
+    this.renduCheckboxDisabled = false; // Activer la case à cocher
   }
 
   isAdmin() {

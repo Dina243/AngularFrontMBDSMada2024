@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,8 +14,9 @@ import { Assignment } from '../assignment.model';
   styleUrl: './rating-card.component.css'
 })
 export class RatingCardComponent {
+  @Output() ratingSubmitted = new EventEmitter<void>();
   assignmentTransmis!: Assignment|undefined;
-  note: number = 0;
+  note: number;
 
   constructor(
     public dialogRef: MatDialogRef<RatingCardComponent>,
@@ -32,5 +33,6 @@ export class RatingCardComponent {
   submitRating(): void {
     console.log('Note ajoutée: ', this.note);
     this.dialogRef.close({ note: this.note });
+    this.ratingSubmitted.emit();
   }
 }
