@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
@@ -11,12 +12,13 @@ import  {RouterLink} from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingCardComponent } from '../rating-card/rating-card.component';
+import { RemarksDialogComponent } from '../remarks-dialog/remarks-dialog.component';
 
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
   imports: [CommonModule, RouterLink,
-    MatButtonModule, MatCardModule, MatCheckboxModule, RatingCardComponent],
+    MatButtonModule, MatIconModule, MatCardModule, MatCheckboxModule, RatingCardComponent],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
@@ -83,11 +85,45 @@ export class AssignmentDetailComponent implements OnInit {
         console.log('La boîte de dialogue a été fermée');
         if (result && this.assignmentTransmis) {
           this.assignmentTransmis.note = result.note;
+          this.saveToBackend(this.assignmentTransmis);
           this.enableCheckbox();
         }
       });
     }
   }
+
+  openRemarksDialog(): void {
+    if (this.assignmentTransmis) {
+      const dialogRef = this.dialog.open(RemarksDialogComponent, {
+        width: '300px',
+        data: { remarque: this.assignmentTransmis.remarque }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('La boîte de dialogue a été fermée');
+        if (result && this.assignmentTransmis) {
+          this.assignmentTransmis.remarque = result.remarque;
+          // this.assignmentsService.updateAssignment(this.assignmentTransmis)
+          //   .subscribe(message => {
+          //     console.log(message);
+          //   });
+          this.saveToBackend(this.assignmentTransmis);
+        }
+      });
+    }
+  }
+
+  // saveToBackend(remarque: string): void {
+  //   console.log('Remarque sauvegardée:', remarque);
+  // }
+
+  saveToBackend(assignment: Assignment): void {
+    this.assignmentsService.updateAssignment(assignment)
+      .subscribe(message => {
+        console.log(message);
+      });
+  }
+
 
   enableCheckbox(): void {
     this.renduCheckboxDisabled = false; // Activer la case à cocher

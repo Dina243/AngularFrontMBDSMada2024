@@ -31,7 +31,7 @@
             <div class="action-buttons">
               <button class="button" type="button">Voir assignment</button>
             </div>
-            <div class="action-icons float-right"> <i class="material-icons action-icon" role="button" title="Noter l'assignment" (click)="openRatingDialog()">grade</i> <i class="material-icons action-icon" role="button" title="Remarques">feedback</i>
+            <div class="action-icons float-right"> <i class="material-icons action-icon" role="button" title="Noter l'assignment" (click)="openRatingDialog()">grade</i> <i class="material-icons action-icon" role="button" title="Remarques" (click)="openRemarksDialog()">feedback</i>
               <i class="material-icons action-icon" role="button" title="Plus d'options">more_vert</i> </div>
           </div>
         </div>
@@ -66,6 +66,7 @@
     <mat-card-subtitle>{{
       assignmentTransmis.dateDeRendu | date
     }}</mat-card-subtitle>
+    <p *ngIf="assignmentTransmis?.remarque">Remarques: {{ assignmentTransmis.remarque }}</p>
   </mat-card-content>
   <mat-card-actions class="container">
     @if(!assignmentTransmis.rendu) {
@@ -87,5 +88,10 @@
     </nav>
   </mat-card-actions>
 </mat-card>
+
+<button mat-raised-button color="accent" class="styled-button" (click)="openRemarksDialog()">
+  <mat-icon>feedback</mat-icon>
+  Ajouter des remarques
+</button>
 
 }

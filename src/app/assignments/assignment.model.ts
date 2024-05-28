@@ -17,7 +17,7 @@ export class Assignment {
   rendu!: boolean;
   note: number = 0;
   matiere!: any;
-  // remarques?: string;
+  remarque!: string;
   // matiere_id?: string;
   studentName!: string;
   studentPhoto!: string;
